@@ -19,12 +19,11 @@ Feature: Merge articles by admin
   As an admin
   I want to merge relevant articles
   
-  Background: movies in databas
-  | title        | rating | director     | release_date |
-  | Star Wars    | PG     | George Lucas |   1977-05-25 |
-  | Blade Runner | PG     | Ridley Scott |   1982-06-25 |
-  | Alien        | R      |              |   1979-05-25 |
-  | THX-1138     | R      | George Lucas |   1971-03-11 |
+  Background: articles in database
+  Given the following articles 
+  | type        | title   | author      | body |
+  | Article1    | Hola    | Spanish One |   I am from Spain |
+  | Article2    | Hi      | America Two |   I am from America |
   
   Scenario: Admin merge articles
     
