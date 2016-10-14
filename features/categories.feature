@@ -21,32 +21,23 @@ Feature: Merge articles by admin
   
     Background: movies in database
     
-    Given the following movies exist:
-    | type        | title | author     | body |
-    | Article     | asdf     | George Lucas |   1977-05-25 |
-    | Article     | asdf     | Ridley Scott |   1982-06-25 |
-
-  
-  Scenario: Admin merge articles
-    
-    Given I am on the admin page
+    Given the following articles exist:
+    | id | type        | title   | author      | body |
+    | 1 | Article1    | Hola    | Spanish One |   I am from Spain |
+    | 2 | Article2    | Hi      | America Two |   I am from America |
+    And I am on the admin page
     When I follow "All Articles"
-    And I press "Edit"
-    And I fill in "merge_with"
+    And I press the first "Edit" #first('.item').click_link('Agree')
+    And I fill in "merge_with" for "2"
     And I press "Merge"
-    Then I should see ""
+
+    Scenario: contain the text of both previous articles
+     
+    
+    Scenario: merge article should have one author
     
     
     
-#  Scenario: Non-admin cannot merge articles
-   
-#   Given I am on the home page
-   
-   
-   
-   
-  
-# A non-admin cannot merge articles.
 
 When articles are merged, the merged article should contain the text of both previous articles.
 When articles are merged, the merged article should have one author (either one of the authors of the original article).
