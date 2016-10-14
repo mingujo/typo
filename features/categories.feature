@@ -19,12 +19,13 @@ Feature: Merge articles by admin
   As an admin
   I want to merge relevant articles
   
-  Background: movies in databas
-  | title        | rating | director     | release_date |
-  | Star Wars    | PG     | George Lucas |   1977-05-25 |
-  | Blade Runner | PG     | Ridley Scott |   1982-06-25 |
-  | Alien        | R      |              |   1979-05-25 |
-  | THX-1138     | R      | George Lucas |   1971-03-11 |
+    Background: movies in database
+    
+    Given the following movies exist:
+    | type        | title | author     | body |
+    | Article     | asdf     | George Lucas |   1977-05-25 |
+    | Article     | asdf     | Ridley Scott |   1982-06-25 |
+
   
   Scenario: Admin merge articles
     
@@ -32,17 +33,20 @@ Feature: Merge articles by admin
     When I follow "All Articles"
     And I press "Edit"
     And I fill in "merge_with"
-    And I pree "Merge"
+    And I press "Merge"
     Then I should see ""
     
- Scenario: Non-admin cannot merge articles
+    
+    
+#  Scenario: Non-admin cannot merge articles
    
-   Given I am on the home page
+#   Given I am on the home page
+   
    
    
    
   
-A non-admin cannot merge articles.
+# A non-admin cannot merge articles.
 
 When articles are merged, the merged article should contain the text of both previous articles.
 When articles are merged, the merged article should have one author (either one of the authors of the original article).
