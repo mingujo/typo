@@ -51,6 +51,25 @@ class Admin::ContentController < Admin::BaseController
     flash[:notice] = _("This article was deleted successfully")
     redirect_to :action => 'index'
   end
+  
+  def merge_with
+    
+    if not Profile.find(current_user.profile_id).label == "admin"
+      flash[:error] = _("Not allowed to merge")
+      redirect_to :action => 'index'
+    end
+    
+    logger.debug params.inspect
+    self_article = Article.find(params[:id])
+    if self_article.merge_with(params[:merge_with])
+      flash[:notice] = _("Merged")
+      redirect_to :action => 'index'
+    else
+      flash[:notice] = _("Not Merged")
+      redirect_to "/admin/content/edit/#{params[:id]}"
+    end
+    
+  end
 
   def insert_editor
     editor = 'visual'
@@ -240,4 +259,5 @@ class Admin::ContentController < Admin::BaseController
   def setup_resources
     @resources = Resource.by_created_at
   end
+  
 end

@@ -466,4 +466,20 @@ class Article < Content
     to = to - 1 # pull off 1 second so we don't overlap onto the next day
     return from..to
   end
+  
+  def merge_with(other_article_id=nil)
+    if other_article_id.nil?
+      return false
+    end
+    tomerge = Article.find_by_id(other_article_id)
+    if not tomerge.nil? and not tomerge.body.nil?
+      self.body += "\n" + tomerge.body
+      self.comments << tomerge.comments
+      self.save!
+      tomerge.destroy
+      return true
+    end
+    return false
+  end
+  
 end
