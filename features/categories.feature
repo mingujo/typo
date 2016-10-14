@@ -22,9 +22,10 @@ Feature: Merge articles by admin
     Background: movies in database
     
     Given the following articles exist:
-    | id | type        | title   | author      | body |
-    | 1 | Article1    | Hola    | Spanish One |   I am from Spain |
-    | 2 | Article2    | Hi      | America Two |   I am from America |
+    | id  | type        | title   | author      | body              | comment     |
+    | 1   | Article1    | Hola    | Spanish One | I am from Spain   | Como estas? |
+    | 2   | Article2    | Hi      | America Two | I am from America | How are you?|
+    
     And I am on the admin page
     When I follow "All Articles"
     And I press the first "Edit" #first('.item').click_link('Agree')
@@ -32,14 +33,31 @@ Feature: Merge articles by admin
     And I press "Merge"
 
     Scenario: contain the text of both previous articles
-     
+      Given I am on the home page
+      When I follow "Articles"
+      And I follow "General"
+      And I follow "Hola"
+      Then I should see "I am from Spain" and "I am from America"
     
     Scenario: merge article should have one author
-    
-    
-    
-
-When articles are merged, the merged article should contain the text of both previous articles.
-When articles are merged, the merged article should have one author (either one of the authors of the original article).
-Comments on each of the two original articles need to all carry over and point to the new, merged article.
-The title of the new article should be the title from either one of the merged articles.
+      Given I am on the home page
+      When I follow "Articles"
+      And I follow "General"
+      And I follow "Hola"
+      Then I should see "Spanish One"
+      And I should not see "America Two"
+      
+    Scenario: comments all carried over to the new, merged article
+      Given I am on the home page
+      When I follow "Articles"
+      And I follow "General"
+      And I follow "Hola"
+      Then I should see "Como estas?"
+      And I should see "How are you?"
+      
+    Scenario: title either one of the merged articles
+      Given I am on the home page
+      When I follow "Articles"
+      And I follow "General"
+      Then I should see "Hola"
+      And I should not see "Hello"

@@ -134,6 +134,16 @@ Then /^(?:|I )should see "([^"]*)"$/ do |text|
   end
 end
 
+Then /^(?:|I )should see "([^"]*)" and "([^"]*)"$/ do |text1, text2|
+  if page.respond_to? :should
+    page.should have_content(text1)
+    page.should have_content(text2)
+  else
+    assert page.has_content?(text1)
+    assert page.has_content?(text2)
+  end
+end
+
 Then /^(?:|I )should see \/([^\/]*)\/$/ do |regexp|
   regexp = Regexp.new(regexp)
 
@@ -238,6 +248,10 @@ Then /^the "([^"]*)" checkbox(?: within (.*))? should be checked$/ do |label, pa
       assert field_checked
     end
   end
+end
+
+When /^(?:|I )follow "([^"]*)" link on the left hand side$/ do |link|
+  visit path_to(link)
 end
 
 Then /^the "([^"]*)" checkbox(?: within (.*))? should not be checked$/ do |label, parent|
