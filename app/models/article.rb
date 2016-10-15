@@ -471,13 +471,15 @@ class Article < Content
     if other_article_id.nil?
       return false
     end
-    tomerge = Article.find_by_id(other_article_id)
-    if not tomerge.nil? and not tomerge.body.nil?
-      self.body += "\n" + tomerge.body
-      self.comments << tomerge.comments
-      self.save!
-      tomerge.destroy
-      return true
+    if Article.where(:id => other_article_id).present?
+      tomerge = Article.find_by_id(other_article_id)
+      if not tomerge.body.nil?
+        self.body += "\n" + tomerge.body
+        self.comments << tomerge.comments
+        self.save!
+        tomerge.destroy
+        return true
+      end
     end
     return false
   end
