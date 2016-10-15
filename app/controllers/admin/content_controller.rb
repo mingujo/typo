@@ -61,7 +61,8 @@ class Admin::ContentController < Admin::BaseController
     
     logger.debug params.inspect
     self_article = Article.find(params[:id])
-    if self_article.merge_with(params[:merge_with])
+    other_article = Article.find_by_id(params[:merge_with])
+    if other_article and self_article.merge_with(params[:merge_with])
       flash[:notice] = _("Merged")
       redirect_to :action => 'index'
     else
